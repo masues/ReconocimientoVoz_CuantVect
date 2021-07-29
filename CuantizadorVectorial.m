@@ -41,8 +41,8 @@ classdef CuantizadorVectorial
       sizeC = size(centroides); % Número de centroides
       sizeD = size(data,1); % Número de muestras de datos
       distances = zeros(sizeD,sizeC(1)); %Crea matriz, cada renglón corresponde a un bloque y cada columna la distancia a un centroide
-      centroides_a = Wienner.centPredictors(centroides); %Calcula los coeficientes 'a'
-      ra = Correlation.ACorrelation(centroides_a,Wienner.Orden+1); %Calcula la correlación corta de los coeficientes a
+      centroides_a = Wiener.centPredictors(centroides); %Calcula los coeficientes 'a'
+      ra = Correlation.ACorrelation(centroides_a,Wiener.Orden+1); %Calcula la correlación corta de los coeficientes a
       for i = 1:sizeD
         for j = 1:sizeC(1)
           distances(i,j) = data(i,1)*ra(j,1) + 2 *dot(data(i,2:end), ra(j,2:end));
