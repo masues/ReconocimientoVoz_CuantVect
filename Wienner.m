@@ -10,26 +10,25 @@ classdef Wienner
     %renglón de la matriz representa la correlación de un bloque.
     function predictors = centPredictors(corr)
       n = size(corr);
-      predictors = zeros(n(1),Wienner.Orden);
+      predictors = zeros(n(1),n(2));
       for i = 1:n(1)
-        predictors(i,:) = ones([1,Wienner.Orden]) - Wienner.pedictor(corr(i,:))';
+        predictors(i,:) = [1 -Wienner.pedictor(corr(i,:))'];
       end
     end
     
     
-    %Calcula el predictor de wienner utilizando un vector de correlaciones,
+    %Calcula el predictor de Wienner utilizando un vector de correlaciones,
     %si el vector es de tamaño N devuelve un predictor de tamaño N-1
     function W = pedictor(rx)
       Rx = Wienner.matCorre(rx(1:end-1));
-      Rx_inv = inv(Rx);
-      W = Rx_inv *rx(2:end).';
+      W = Rx \ rx(2:end)'; % Rx^-1 * rx(2:end)'
     end
     
     
     %Crea la matriz simétrica de correlaciones.
     function matriz = matCorre(rx)
       n = length(rx);
-      matriz = zeros(Wienner.Orden,Wienner.Orden);
+      matriz = zeros(n);
       for i = 1:n
         for j = 1:n
           matriz(i,j) = rx(abs(i-j)+1);

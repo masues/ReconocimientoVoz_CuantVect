@@ -8,11 +8,11 @@ classdef Correlation
     function corr = ACorrelation (signal, N)
       sizeS = size(signal);
       corr = zeros(sizeS(1),N);
-      for k = 1:sizeS(1)
-        for i = 1:N
+      for k = 1:sizeS(1) % Itera sobre el número de señales
+        for i = 1:N % Itera sobre la cantidad de elementos requeridos
           simetric = [signal(k,i:end) zeros(1,i-1)]; %Señal desplazada a la izquierda con cada iteración 
           signal(k,:);
-          corr(k,i) = dot(signal(k,:), simetric)/N;
+          corr(k,i) = dot(signal(k,:), simetric);
         end
         
       end

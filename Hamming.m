@@ -69,11 +69,11 @@ classdef Hamming
     end
     
     function blocks = getBlocks(signal)
-      window = 511; %tamaño de la muestra -1
-      padding = 170; %distancia entre muestras
+      window = 160 - 1; %tamaño de la muestra -1
+      padding = 64; %distancia entre muestras
       ini = 1;
       fin = ini + window;
-      h = hamming(512); %Ventana de hamming, periodic añadir
+      h = hamming(160); %Ventana de hamming, periodic añadir
       maxFin = length(signal);
       i = 1;
       blocks = [];
