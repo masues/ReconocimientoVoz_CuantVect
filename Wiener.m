@@ -1,9 +1,5 @@
 classdef Wiener
   
-  properties (Constant)
-    Orden = 12
-  end
-
   methods(Static)
     
     %Calcula los coefientes a a partir de una matriz de correlación, cada
