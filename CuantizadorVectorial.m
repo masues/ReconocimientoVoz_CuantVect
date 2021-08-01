@@ -49,6 +49,49 @@ classdef CuantizadorVectorial
         end
       end
     end
+
+
+    %{
+    Obtiene la distancia de una señal (vectores de autocorrelación)
+    a un cuantizador vectorial.
+    :param   data:
+      Matriz que contiene a los vectores de autocorrelación de una señal. Su 
+      tamaño es mxn con m es el número de vectores, n el orden del vector
+      de autocorrelación.
+    :param   centroidesCuantizador:
+      Matriz que contiene a los centroides del cuantizador vectorial.
+      Su tamaño es de oxn, con o el número de centroides, n el orden del vector
+      de autocorrelación.
+    %}
+    function distGlobal = distCuantizador(data, centroidesCuantizador)
+      distancias = CuantizadorVectorial.pdistItakuraSaito(data,centroidesCuantizador);
+      distMenor = min(distancias, [ ], 2);
+      distGlobal = sum(distMenor);
+    end
+
+    %{
+    Clasifica a una señal de voz utilizando los cuantizadores de entrada
+    :param   data:
+      Matriz que contiene a los vectores de autocorrelación de una señal.
+      Su tamaño es mxn con m es el número de vectores, n el orden del vector
+      de autocorrelación.
+    :param   cuantizadores:
+      Cell array que representa a los cuantizadores vectoriales.
+      La primer dimensión corresponde al cuantizador de la señal iésima
+      La segunda dimensión corresponde a
+        1 -> Índice del grupo en el que se agrupó cada vector de autocorrelación
+        2 -> Centroides del cuantizador vectorial
+    %}
+    function indx = clasificador(data, cuantizadores)
+      % Obtiene el número de cuantizadores
+      numCuantizadores = length(cuantizadores);
+      % Inicializa la distancia de la señal a cada cuantizador
+      distCuantizadores = zeros(1,numCuantizadores);
+      for i=1:numCuantizadores
+        distCuantizadores(i) = CuantizadorVectorial.distCuantizador(data,cuantizadores{i}{2});
+      end
+      [~,indx] = min(distCuantizadores);
+    end
     
   end
 end
